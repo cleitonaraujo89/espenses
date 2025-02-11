@@ -27,7 +27,7 @@ class ChartBar extends StatelessWidget {
           child: Stack( // coloca itens um em cima de outro
             alignment: Alignment.bottomCenter, // alinha para que o gráfico seja de baixo para cima
             children: [
-              Container(
+              Container( // 1º item
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.grey,
@@ -37,7 +37,7 @@ class ChartBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              FractionallySizedBox(
+              FractionallySizedBox( // 2° item
                 heightFactor: percentage,
                 child: Container(
                   decoration: BoxDecoration(

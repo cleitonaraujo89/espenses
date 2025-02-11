@@ -16,6 +16,7 @@ class TransactionList extends StatelessWidget {
           400, // um conteiner com 400px com scroll individual, sem isso o ListView buga
       child: transactions.isEmpty
           ? Column(
+              // se a lista de transações estiver vazia mostra essa coluna com imagem
               children: [
                 SizedBox(height: 20),
                 Text(
@@ -33,16 +34,18 @@ class TransactionList extends StatelessWidget {
               ],
             )
           : ListView.builder(
-              // retorna uma coluna aonde
-              itemCount: transactions.length,
+              // caso contrario mostra o ListView
+              itemCount: transactions.length, //contagem de itens
               itemBuilder: (ctx, index) {
+                // vai executar essa lógica para cada item
                 final tr = transactions[index];
 
+                //retorna um card
                 return Card(
-                    child: Row(children: [
-                  // e cada card tem comportamento de linha
-                  Container(
-                      // que possui um conteiner e uma coluna
+                  child: Row(// e cada card tem comportamento de linha
+                      children: [
+                    // que possui um conteiner e uma coluna
+                    Container(
                       margin:
                           EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                       decoration: BoxDecoration(
@@ -59,24 +62,27 @@ class TransactionList extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                             color: Theme.of(context).primaryColor),
-                      )),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          //os itens da colula começam a diteira e temos 2 textos
-                          tr.title,
-                          style: const TextStyle(
-                              fontFamily: 'Open Sans',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          DateFormat('d / MM /y').format(tr.date),
-                          style: const TextStyle(color: Colors.grey),
-                        )
-                      ]),
-                ]));
+                      ),
+                    ),
+                    Column(
+                        //alinhamento a esquerda
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            //os itens da colula começam a diteira e temos 2 textos
+                            tr.title,
+                            style: const TextStyle(
+                                fontFamily: 'Open Sans',
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            DateFormat('d / MM /y').format(tr.date),
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        ]),
+                  ]),
+                );
               },
               // children: transactions.map((tr) {
               //   // cada transação na lista é um card
