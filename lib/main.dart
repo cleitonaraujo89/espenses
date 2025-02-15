@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+
 import 'package:espenses/components/chart.dart';
 import 'package:flutter/material.dart';
 //import '../components/transaction_user.dart';
@@ -30,6 +32,7 @@ class ExpensesApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
+            titleSmall: TextStyle(fontSize: 16),
           ),
           appBarTheme: const AppBarTheme(
             // Tema da AppBar
@@ -54,32 +57,7 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   //const MyHomePage({super.key});
 
-  final List<Transaction> _transactions = [
-    Transaction(
-      id: 't0',
-      title: 'Novo teste',
-      value: 510.00,
-      date: DateTime.now().subtract(Duration(days: 33)),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'Novo Tênis de Corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta de Luz',
-      value: 211.20,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    ),
-    Transaction(
-      id: 't3',
-      title: 'Conta de agua',
-      value: 48.80,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    )
-  ];
+  final List<Transaction> _transactions = [];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -87,12 +65,13 @@ class MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
-        id: Random().nextDouble().toString(),
-        title: title,
-        value: value,
-        date: DateTime.now());
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: date,
+    );
     // instancia um novo objeto Transaction e pelo setState atualiza a lista adcionando um novo item e renderiza no ato
     setState(() {
       _transactions.add(newTransaction);

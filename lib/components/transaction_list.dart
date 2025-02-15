@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, sized_box_for_whitespace, prefer_const_constructors, prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import '../models/transactions.dart';
 import 'package:intl/intl.dart';
@@ -42,46 +44,46 @@ class TransactionList extends StatelessWidget {
 
                 //retorna um card
                 return Card(
-                  child: Row(// e cada card tem comportamento de linha
-                      children: [
-                    // que possui um conteiner e uma coluna
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  elevation: 6,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
+                  ),
+                  child: ListTile(
+                    leading: Container(
+                      //antes era o CircleAvatar com backgroundColor: e radius: 30
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(15),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        'R\$ ${tr.value.toStringAsFixed(2)}', //2 casas decimais
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Theme.of(context).primaryColor),
+
+                      child: Padding(
+                        padding: const EdgeInsets.all(11),
+                        child: FittedBox(
+                          child: Text(
+                            'R\$${tr.value.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    Column(
-                        //alinhamento a esquerda
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            //os itens da colula começam a diteira e temos 2 textos
-                            tr.title,
-                            style: const TextStyle(
-                                fontFamily: 'Open Sans',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            DateFormat('d / MM /y').format(tr.date),
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-                        ]),
-                  ]),
+                    title: Text(
+                      tr.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    subtitle: Text(
+                      DateFormat('d / MM / y').format(tr.date),
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
                 );
               },
               // children: transactions.map((tr) {
