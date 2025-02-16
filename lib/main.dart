@@ -2,6 +2,7 @@
 
 import 'package:espenses/components/chart.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter/services.dart';
 //import '../components/transaction_user.dart';
 import 'components/transaction_list.dart';
 import 'components/transactions_form.dart';
@@ -15,24 +16,29 @@ void main() {
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //acessibilidade para fontes (aumentam de acordo com a configuração do usuario)
+    final scaledFontSize = MediaQuery.textScalerOf(context);
+
+    //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MyHomePage(),
       theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: Colors.purple,
-          textTheme: const TextTheme(
+          textTheme: TextTheme(
             // Tema dos Textos
             titleLarge: TextStyle(
               fontFamily: 'Caveat',
               fontWeight: FontWeight.w700,
-              fontSize: 30,
+              fontSize: scaledFontSize.scale(30),
             ),
             titleMedium: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: scaledFontSize.scale(20),
             ),
-            titleSmall: TextStyle(fontSize: 16),
+            titleSmall: TextStyle(fontSize: scaledFontSize.scale(16)),
           ),
           appBarTheme: const AppBarTheme(
             // Tema da AppBar
@@ -80,6 +86,12 @@ class MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  _removeTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+
   _opemTransactionFormModal(BuildContext context) {
     //abre o modal
     showModalBottomSheet(
@@ -91,29 +103,43 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Despesas Pessoais',
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => _opemTransactionFormModal(context),
-            icon: Icon(Icons.add),
-            color: Colors.white,
-          )
-        ],
-        centerTitle: true,
+    // coloquei a appbar em uma variavel para tar acesso ao tamanho dela
+    final appBar = AppBar(
+      title: const Text(
+        'Despesas Pessoais',
+        style: TextStyle(color: Colors.white),
       ),
+      actions: [
+        IconButton(
+          onPressed: () => _opemTransactionFormModal(context),
+          icon: Icon(Icons.add),
+          color: Colors.white,
+        )
+      ],
+      centerTitle: true,
+    );
+
+    //aqui atribuo o valor da altura menos a appbar e um padding top para ter exatamente o tamanho da area disponivel
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      appBar: appBar, // aplicação do appBar
+      // habilita o scroll na tela
       body: SingleChildScrollView(
-        // habilita o scroll na tela
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(_recentTransactions),
+            Container(
+              height: availableHeight * 0.3, // 30* da altura
+              child: Chart(_recentTransactions),
+            ),
 
-            TransactionList(_transactions)
+            Container(
+              height: availableHeight * 0.7, // 70% da altura
+              child: TransactionList(_transactions, _removeTransaction),
+            )
             //TransactionUser(), // ativação antes do modal
             // Column(
             //   children: [
