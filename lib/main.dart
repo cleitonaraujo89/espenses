@@ -7,6 +7,7 @@ import 'components/transaction_list.dart';
 import 'components/transactions_form.dart';
 import './models/transactions.dart';
 import 'dart:math';
+import 'dart:io';
 
 void main() {
   runApp(ExpensesApp());
@@ -148,20 +149,22 @@ class MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // if (isLandScape) // não utiliza {} se fosse mais de um widget era 'if(cond) ...[]' exemplo abaixo no else
-            //   Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       Text('Exibir Gráfico'),
-            //       Switch(
-            //         value: _showChart,
-            //         onChanged: (value) {
-            //           setState(() {
-            //             _showChart = value;
-            //           });
-            //         },
-            //       ),
-            //     ],
-            //   ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Text('Exibir Gráfico'),
+            //     //swirch nativo de cada aparelho
+            //     Switch.adaptive(
+            //       value: _showChart,
+            //       activeColor: Theme.of(context).primaryColor,
+            //       onChanged: (value) {
+            //         setState(() {
+            //           _showChart = value;
+            //         });
+            //       },
+            //     ),
+            //   ],
+            // ),
             if (isLandScape)
               _showChart
                   ? SizedBox(
@@ -194,10 +197,13 @@ class MyHomePageState extends State<MyHomePage> {
           ], // children column body
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _opemTransactionFormModal(context),
-      ),
+      //chegando a plataforma antes de apresentar conteudo
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () => _opemTransactionFormModal(context),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
