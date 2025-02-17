@@ -2,8 +2,7 @@
 
 import 'package:espenses/components/chart.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/services.dart';
-//import '../components/transaction_user.dart';
+// import 'package:flutter/services.dart'; //usado para travar a orientação da tela
 import 'components/transaction_list.dart';
 import 'components/transactions_form.dart';
 import './models/transactions.dart';
@@ -19,6 +18,7 @@ class ExpensesApp extends StatelessWidget {
     //acessibilidade para fontes (aumentam de acordo com a configuração do usuario)
     final scaledFontSize = MediaQuery.textScalerOf(context);
 
+    //forma de travar a orientação da tela (somente retrato)
     //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return MaterialApp(
@@ -64,6 +64,7 @@ class MyHomePageState extends State<MyHomePage> {
   //const MyHomePage({super.key});
 
   final List<Transaction> _transactions = [];
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -131,15 +132,29 @@ class MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              height: availableHeight * 0.3, // 30* da altura
-              child: Chart(_recentTransactions),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Exibir Gráfico'),
+                Switch(
+                  value: _showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      _showChart = value;
+                    });
+                  },
+                ),
+              ],
             ),
-
-            Container(
-              height: availableHeight * 0.7, // 70% da altura
-              child: TransactionList(_transactions, _removeTransaction),
-            )
+            _showChart
+                ? SizedBox(
+                    height: availableHeight * 0.3, // 30* da altura
+                    child: Chart(_recentTransactions),
+                  )
+                : Container(
+                    height: availableHeight * 0.7, // 70% da altura
+                    child: TransactionList(_transactions, _removeTransaction),
+                  )
             //TransactionUser(), // ativação antes do modal
             // Column(
             //   children: [

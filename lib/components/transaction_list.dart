@@ -15,23 +15,27 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
-        ? Column(
-            // se a lista de transações estiver vazia mostra essa coluna com imagem
-            children: [
-              SizedBox(height: 20),
-              Text(
-                'Nenhuma Transação Cadastrada!',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              SizedBox(height: 20),
-              Container(
-                height: 200,
-                child: Image.asset(
-                  'assets/images/waiting.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
+        ? LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                // se a lista de transações estiver vazia mostra essa coluna com imagem
+                children: [
+                  SizedBox(height: constraints.minHeight * 0.05),
+                  Text(
+                    'Nenhuma Transação Cadastrada!',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  SizedBox(height: constraints.minHeight * 0.05),
+                  Container(
+                    height: constraints.minHeight * 0.6,
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
+              );
+            },
           )
         // caso contrario mostra o ListView
         : ListView.builder(
@@ -39,7 +43,7 @@ class TransactionList extends StatelessWidget {
             itemBuilder: (ctx, index) {
               // vai executar essa lógica para cada item
               final tr = transactions[index]; //recebe os dados da transação
-    
+
               //retorna um card
               return Card(
                 elevation: 6,
@@ -54,7 +58,7 @@ class TransactionList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       color: Theme.of(context).colorScheme.primary,
                     ),
-    
+
                     child: Padding(
                       padding: const EdgeInsets.all(11),
                       child: FittedBox(
@@ -69,18 +73,18 @@ class TransactionList extends StatelessWidget {
                       ),
                     ),
                   ),
-    
+
                   //Titulo da transação
                   title: Text(
                     tr.title,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-    
+
                   //Subtitulo com data
                   subtitle: Text(
                     DateFormat('d / MM / y').format(tr.date),
                   ),
-    
+
                   //icone para remoção
                   trailing: IconButton(
                     onPressed: () => onRemove(tr.id),
@@ -92,7 +96,7 @@ class TransactionList extends StatelessWidget {
             },
             // children: transactions.map((tr) {
             //   // cada transação na lista é um card
-    
+
             // }).toList(), // converde o map pra lista
           );
   }
