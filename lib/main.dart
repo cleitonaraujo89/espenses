@@ -104,6 +104,9 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     // coloquei a appbar em uma variavel para tar acesso ao tamanho dela
     final appBar = AppBar(
       title: const Text(
@@ -111,6 +114,17 @@ class MyHomePageState extends State<MyHomePage> {
         style: TextStyle(color: Colors.white),
       ),
       actions: [
+        //se tiver paisagem mostra um novo icone na barra
+        if (isLandScape)
+          IconButton(
+            icon: Icon(_showChart ? Icons.list : Icons.show_chart),
+            color: Colors.white,
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+          ),
         IconButton(
           onPressed: () => _opemTransactionFormModal(context),
           icon: Icon(Icons.add),
@@ -132,29 +146,42 @@ class MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Exibir Gráfico'),
-                Switch(
-                  value: _showChart,
-                  onChanged: (value) {
-                    setState(() {
-                      _showChart = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-            _showChart
-                ? SizedBox(
-                    height: availableHeight * 0.3, // 30* da altura
-                    child: Chart(_recentTransactions),
-                  )
-                : Container(
-                    height: availableHeight * 0.7, // 70% da altura
-                    child: TransactionList(_transactions, _removeTransaction),
-                  )
+            // if (isLandScape) // não utiliza {} se fosse mais de um widget era 'if(cond) ...[]' exemplo abaixo no else
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text('Exibir Gráfico'),
+            //       Switch(
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       ),
+            //     ],
+            //   ),
+            if (isLandScape)
+              _showChart
+                  ? SizedBox(
+                      // 30% da altura no modo retrato 70% paisagem
+                      height: availableHeight * (isLandScape ? 0.7 : 0.3),
+                      child: Chart(_recentTransactions),
+                    )
+                  : SizedBox(
+                      height: availableHeight * 0.7, // 70% da altura
+                      child: TransactionList(_transactions, _removeTransaction),
+                    )
+            else ...[
+              SizedBox(
+                height: availableHeight * 0.3, // 30* da altura
+                child: Chart(_recentTransactions),
+              ),
+              SizedBox(
+                height: availableHeight * 0.7, // 70% da altura
+                child: TransactionList(_transactions, _removeTransaction),
+              )
+            ]
             //TransactionUser(), // ativação antes do modal
             // Column(
             //   children: [
