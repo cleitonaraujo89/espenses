@@ -32,7 +32,7 @@ class ExpensesApp extends StatelessWidget {
             titleLarge: TextStyle(
               fontFamily: 'Caveat',
               fontWeight: FontWeight.w700,
-              fontSize: scaledFontSize.scale(30),
+              fontSize: 30,
             ),
             titleMedium: TextStyle(
               fontWeight: FontWeight.bold,
@@ -104,8 +104,9 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLandScape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    //variaveis para contole do MediaQuery e orientação
+    final mediaQuery = MediaQuery.of(context);
+    bool isLandScape = mediaQuery.orientation == Orientation.landscape;
 
     // coloquei a appbar em uma variavel para tar acesso ao tamanho dela
     final appBar = AppBar(
@@ -135,9 +136,9 @@ class MyHomePageState extends State<MyHomePage> {
     );
 
     //aqui atribuo o valor da altura menos a appbar e um padding top para ter exatamente o tamanho da area disponivel
-    final availableHeight = MediaQuery.of(context).size.height -
+    final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+        mediaQuery.padding.top;
 
     return Scaffold(
       appBar: appBar, // aplicação do appBar
@@ -164,12 +165,13 @@ class MyHomePageState extends State<MyHomePage> {
             if (isLandScape)
               _showChart
                   ? SizedBox(
-                      // 30% da altura no modo retrato 70% paisagem
-                      height: availableHeight * (isLandScape ? 0.7 : 0.3),
+                      // 30% da altura no modo retrato 80% paisagem
+                      height: availableHeight * (isLandScape ? 0.8 : 0.3),
                       child: Chart(_recentTransactions),
                     )
                   : SizedBox(
-                      height: availableHeight * 0.7, // 70% da altura
+                      height: availableHeight *
+                          (isLandScape ? 1 : 0.7), // 100% land ou 70% port
                       child: TransactionList(_transactions, _removeTransaction),
                     )
             else ...[

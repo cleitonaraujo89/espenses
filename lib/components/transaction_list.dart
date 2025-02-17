@@ -85,12 +85,18 @@ class TransactionList extends StatelessWidget {
                     DateFormat('d / MM / y').format(tr.date),
                   ),
 
-                  //icone para remoção
-                  trailing: IconButton(
-                    onPressed: () => onRemove(tr.id),
-                    icon: Icon(Icons.delete),
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                  //icone para remoção com checagem de largura de tela
+                  trailing: MediaQuery.of(context).size.width > 480
+                      ? TextButton.icon(
+                          onPressed: () => onRemove(tr.id),
+                          label: Text('Excluir'),
+                          icon: Icon(Icons.delete),
+                        )
+                      : IconButton(
+                          onPressed: () => onRemove(tr.id),
+                          icon: Icon(Icons.delete),
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                 ),
               );
             },
