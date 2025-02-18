@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:espenses/components/chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart'; //usado para travar a orientação da tela
 import 'components/transaction_list.dart';
@@ -103,48 +104,60 @@ class MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  Widget _getIconButton(IconData icon, void Function() fn) {
+    return Platform.isIOS
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(icon: Icon(icon), color: Colors.white, onPressed: fn);
+  }
+
   @override
   Widget build(BuildContext context) {
     //variaveis para contole do MediaQuery e orientação
     final mediaQuery = MediaQuery.of(context);
     bool isLandScape = mediaQuery.orientation == Orientation.landscape;
 
+    final actions = [
+      //se tiver paisagem mostra um novo icone na barra
+      if (isLandScape)
+        _getIconButton(
+          _showChart ? Icons.list : Icons.show_chart,
+          () {
+            setState(() {
+              _showChart = !_showChart;
+            });
+          },
+        ),
+      _getIconButton(
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+        () => _opemTransactionFormModal(context),
+      )
+    ];
+
     // coloquei a appbar em uma variavel para tar acesso ao tamanho dela
-    final appBar = AppBar(
+    final PreferredSizeWidget appBarAndrod = AppBar(
       title: const Text(
         'Despesas Pessoais',
         style: TextStyle(color: Colors.white),
       ),
-      actions: [
-        //se tiver paisagem mostra um novo icone na barra
-        if (isLandScape)
-          IconButton(
-            icon: Icon(_showChart ? Icons.list : Icons.show_chart),
-            color: Colors.white,
-            onPressed: () {
-              setState(() {
-                _showChart = !_showChart;
-              });
-            },
-          ),
-        IconButton(
-          onPressed: () => _opemTransactionFormModal(context),
-          icon: Icon(Icons.add),
-          color: Colors.white,
-        )
-      ],
+      actions: actions,
       centerTitle: true,
+    );
+
+    final ObstructingPreferredSizeWidget appBarIOS = CupertinoNavigationBar(
+      middle: Text('Despesas Pessoais'),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: actions,
+      ),
     );
 
     //aqui atribuo o valor da altura menos a appbar e um padding top para ter exatamente o tamanho da area disponivel
     final availableHeight = mediaQuery.size.height -
-        appBar.preferredSize.height -
+        appBarAndrod.preferredSize.height -
         mediaQuery.padding.top;
 
-    return Scaffold(
-      appBar: appBar, // aplicação do appBar
-      // habilita o scroll na tela
-      body: SingleChildScrollView(
+    final bodyPage = SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -187,24 +200,29 @@ class MyHomePageState extends State<MyHomePage> {
                 child: TransactionList(_transactions, _removeTransaction),
               )
             ]
-            //TransactionUser(), // ativação antes do modal
-            // Column(
-            //   children: [
-            //     //  TransactionForm(_addTransaction),
-            //     //TransactionList(_transactions)
-            //   ],
-            // )
           ], // children column body
         ),
       ),
-      //chegando a plataforma antes de apresentar conteudo
-      floatingActionButton: Platform.isIOS
-          ? Container()
-          : FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () => _opemTransactionFormModal(context),
-            ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: appBarIOS,
+            child: bodyPage,
+          )
+        : Scaffold(
+            appBar: appBarAndrod, // aplicação do appBar
+            // habilita o scroll na tela
+            body: bodyPage,
+            //chegando a plataforma antes de apresentar conteudo
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () => _opemTransactionFormModal(context),
+                  ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
   }
 }
