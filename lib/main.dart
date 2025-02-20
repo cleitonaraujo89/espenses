@@ -27,32 +27,33 @@ class ExpensesApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: MyHomePage(),
       theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: Colors.purple,
-          textTheme: TextTheme(
-            // Tema dos Textos
-            titleLarge: TextStyle(
-              fontFamily: 'Caveat',
-              fontWeight: FontWeight.w700,
-              fontSize: 30,
-            ),
-            titleMedium: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: scaledFontSize.scale(20),
-            ),
-            titleSmall: TextStyle(fontSize: scaledFontSize.scale(16)),
+        useMaterial3: true,
+        colorSchemeSeed: Colors.purple,
+        textTheme: TextTheme(
+          // Tema dos Textos
+          titleLarge: TextStyle(
+            fontFamily: 'Caveat',
+            fontWeight: FontWeight.w700,
+            fontSize: 30,
           ),
-          appBarTheme: const AppBarTheme(
-            // Tema da AppBar
-            backgroundColor: Colors.purple,
-            // titleTextStyle: TextStyle(
-            //   fontFamily: 'Caveat',
-            //   fontWeight: FontWeight.w700,
-            //   fontSize: 30,
-            // )
-          )
-          // para adicionar fontes basta habilitalas no pubspec.yaml
+          titleMedium: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: scaledFontSize.scale(20),
           ),
+          titleSmall: TextStyle(fontSize: scaledFontSize.scale(16)),
+        ),
+        appBarTheme: const AppBarTheme(
+          // Tema da AppBar
+          backgroundColor: Colors.purple,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
+            textStyle: TextStyle(fontSize: 16),
+          ),
+        ),
+      ),
     );
   }
 }

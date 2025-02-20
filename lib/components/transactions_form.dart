@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'adaptative_button.dart';
+import 'adaptative_textfield.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -68,26 +70,21 @@ class _TransactionFormState extends State<TransactionForm> {
             bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Column(children: [
-            TextField(
-              controller:
-                  _titleController, // o controller fica "escutando" o que é digitado e atualizando a variavel (modo sem atribuição)
-              //o onSubmitted ativa quando a pessoa aperta entre no telhado
-              onSubmitted: (_) =>
-                  _subimitForm(), // precisa de uma função para executar por isso a arrow function com o "_" como parametro pois se chamar a funfção direto _subimitForm() n funciona
-              decoration: InputDecoration(
-                //Placeholder
-                labelText: 'Título',
-              ),
+            AdaptativeTextfield(
+              controller: _titleController,
+              // o controller fica "escutando" o que é digitado e atualizando a variavel (modo sem atribuição)
+              //o onSubmitted ativa quando a pessoa aperta enter no telhado
+              onSubmit: _subimitForm,
+              // precisa de uma função para executar por isso a arrow function com o "_" como parametro pois se chamar a funfção direto _subimitForm() n funciona
+              label: 'Título',
             ),
-            TextField(
+            AdaptativeTextfield(
               //onChanged: (newValue) => value = newValue, // geito com atribuição
               controller: _valueController,
+              onSubmit:_subimitForm, //se apertar entrer...              
+              label: 'Valor (R\$)',
               //teclado numérico
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => _subimitForm(), //se apertar entrer...
-              decoration: InputDecoration(
-                labelText: 'Valor (R\$)',
-              ),
+              keyboard: TextInputType.numberWithOptions(decimal: true),              
             ),
             Container(
               height: 70,
@@ -114,15 +111,9 @@ class _TransactionFormState extends State<TransactionForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ElevatedButton(
+                AdaptativeButton(
                   onPressed: _subimitForm,
-                  style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                          Theme.of(context).primaryColor)),
-                  child: Text(
-                    'Nova Transação',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+                  label: 'Nova Transação',
                 ),
               ],
             )
