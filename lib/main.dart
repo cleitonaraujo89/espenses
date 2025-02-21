@@ -40,7 +40,11 @@ class ExpensesApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: scaledFontSize.scale(20),
           ),
-          titleSmall: TextStyle(fontSize: scaledFontSize.scale(16)),
+          titleSmall: TextStyle(
+            fontSize: scaledFontSize.scale(14),
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         appBarTheme: const AppBarTheme(
           // Tema da AppBar
