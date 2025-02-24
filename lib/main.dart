@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:espenses/components/chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +29,7 @@ class ExpensesApp extends StatelessWidget {
         colorSchemeSeed: Colors.purple,
         textTheme: TextTheme(
           // Tema dos Textos
-          titleLarge: TextStyle(
+          titleLarge: const TextStyle(
             fontFamily: 'Caveat',
             fontWeight: FontWeight.w700,
             fontSize: 30,
@@ -54,7 +52,7 @@ class ExpensesApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,
             foregroundColor: Colors.white,
-            textStyle: TextStyle(fontSize: 16),
+            textStyle: const TextStyle(fontSize: 16),
           ),
         ),
       ),
@@ -75,7 +73,7 @@ class MyHomePageState extends State<MyHomePage> {
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
-      return tr.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+      return tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
     }).toList();
   }
 
@@ -149,7 +147,7 @@ class MyHomePageState extends State<MyHomePage> {
     );
 
     final ObstructingPreferredSizeWidget appBarIOS = CupertinoNavigationBar(
-      middle: Text('Despesas Pessoais'),
+      middle: const Text('Despesas Pessoais'),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: actions,
@@ -223,7 +221,7 @@ class MyHomePageState extends State<MyHomePage> {
             floatingActionButton: Platform.isIOS
                 ? Container()
                 : FloatingActionButton(
-                    child: Icon(Icons.add),
+                    child: const Icon(Icons.add),
                     onPressed: () => _opemTransactionFormModal(context),
                   ),
             floatingActionButtonLocation:

@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables, sized_box_for_whitespace, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
@@ -10,7 +8,7 @@ class ChartBar extends StatelessWidget {
   final double value;
   final double percentage;
 
-  ChartBar({
+  const ChartBar({
     required this.label,
     required this.value,
     required this.percentage,
@@ -23,14 +21,14 @@ class ChartBar extends StatelessWidget {
       builder: (ctx, constraints) {
         return Column(
           children: [
-            Container(
+            SizedBox(
               height: constraints.maxHeight * 0.15,
               child: FittedBox(
                 child: Text(value.toStringAsFixed(2)),
               ),
             ),
             SizedBox(height: constraints.maxHeight * 0.05),
-            Container(
+            SizedBox(
               height: constraints.maxHeight * 0.6,
               width: 10,
               child: Stack(
@@ -45,7 +43,7 @@ class ChartBar extends StatelessWidget {
                         color: Colors.grey,
                         width: 1.0,
                       ),
-                      color: Color.fromRGBO(220, 220, 220, 1),
+                      color: const Color.fromRGBO(220, 220, 220, 1),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
@@ -63,7 +61,7 @@ class ChartBar extends StatelessWidget {
               ),
             ),
             SizedBox(height: constraints.maxHeight * 0.05),
-            Container(
+            SizedBox(
               height: constraints.maxHeight * 0.15,
               child: FittedBox(child: Text(label)),
             ),

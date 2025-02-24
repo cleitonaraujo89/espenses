@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors, sized_box_for_whitespace, prefer_const_constructors, prefer_const_constructors_in_immutables
-
 import 'package:espenses/components/transaction_item.dart';
 import 'package:flutter/material.dart';
 import '../models/transactions.dart';
@@ -11,7 +9,7 @@ class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   final void Function(String) onRemove;
 
-  TransactionList(this.transactions, this.onRemove);
+  const TransactionList(this.transactions, this.onRemove);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class TransactionList extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   SizedBox(height: constraints.minHeight * 0.05),
-                  Container(
+                  SizedBox(
                     height: constraints.minHeight * 0.6,
                     child: Image.asset(
                       'assets/images/waiting.png',

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'adaptative_button.dart';
 import 'adaptative_textfield.dart';
@@ -67,7 +65,7 @@ class _TransactionFormState extends State<TransactionForm> {
               onSubmit: _subimitForm, //se apertar entrer...
               label: 'Valor (R\$)',
               //teclado numérico
-              keyboard: TextInputType.numberWithOptions(decimal: true),
+              keyboard: const TextInputType.numberWithOptions(decimal: true),
             ),
             AdaptativeDatePicker(
               selectedDate: _selectedDate,

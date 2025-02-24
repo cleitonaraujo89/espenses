@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_constructors_in_immutables
-
 import 'package:espenses/models/transactions.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,7 @@ class Chart extends StatelessWidget {
 
   final List<Transaction> recentTransaction;
 
-  Chart(this.recentTransaction);
+  const Chart(this.recentTransaction);
 
   List<Map<String, Object>> get groupedTransactions {
     //monta uma lista com 7 elementos [0 - 6] e executaa logica para cada um dos itens ou seja no fim
@@ -58,7 +56,7 @@ class Chart extends StatelessWidget {
 
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(
