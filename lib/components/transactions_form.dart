@@ -34,7 +34,7 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value, _selectedDate);
   }
 
-  //recebe uma função no cosntrutor
+  //recebe uma função no construtor
   @override
   Widget build(BuildContext context) {
     //adiciona scrol no card acima do teclado

@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 
 class AdaptativeDatePicker extends StatelessWidget {
 
@@ -23,8 +21,7 @@ class AdaptativeDatePicker extends StatelessWidget {
         return;
       }
 
-      onDateChanged(pickedDate);
-     
+      onDateChanged(pickedDate);     
     });
   }
 

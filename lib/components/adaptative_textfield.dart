@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 class AdaptativeTextfield extends StatelessWidget {
